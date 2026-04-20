@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Rose - BLOOM</title>
+    <link rel="stylesheet" href="../product.css">
+</head>
+
+<body>
+
+    <!-- Page loader -->
+    <div id="page-loader">
+        <div class="loader-inner"></div>
+    </div>
+
+    <nav class="navbar">
+        <a class="nav-logo" href="../bloomsite.html">
+            <span>BLOOM</span>
+        </a>
+        <div class="nav-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="17" y1="17" x2="22" y2="22" />
+            </svg>
+            <input type="text" placeholder="Search flowers, bouquets..." />
+        </div>
+        <div class="nav-spacer"></div>
+        <div class="nav-actions">
+            <button class="nav-cart" title="Cart" onclick="toggleCart()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="nav-badge" id="cart-count" style="display:none;">0</span>
+            </button>
+            <div class="cart-dropdown" id="cart-dropdown">
+                <p class="cart-title">Your cart</p>
+                <div id="cart-items">
+                    <p class="cart-empty">No items yet</p>
+                </div>
+                <div class="cart-total">Total: <strong id="cart-total">$0.00</strong></div>
+            </div>
+            <div id="auth-buttons">
+                <a href="../login.html"><button class="nav-btn-login">Log in</button></a>
+                <a href="../signup.html"><button class="nav-btn-signup">Sign up</button></a>
+            </div>
+            <div id="account-menu" style="display:none; position:relative;">
+                <button class="nav-account-btn" onclick="toggleAccount()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                    <span id="account-name"></span>
+                </button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <div class="account-dropdown-header"><span id="account-email"></span></div>
+                    <a href="../account/my-account.html" class="account-item"><svg width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                        </svg>My account</a>
+                    <a href="../account/orders.html" class="account-item"><svg width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <path d="M16 10a4 4 0 01-8 0" />
+                        </svg>My orders</a>
+                    <a href="../account/wishlist.html" class="account-item"><svg width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                        </svg>Wishlist</a>
+                    <a href="../account/settings.html" class="account-item"><svg width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+                        </svg>Settings</a>
+                    <div class="account-divider"></div>
+                    <a href="#" class="account-item account-logout" onclick="logout()"><svg width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>Log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <aside class="sidebar">
+            <input type="text" placeholder="Search flowers...">
+            <h3>About Bloom</h3>
+            <ul>
+                <li><a href="../bloomsite.html">Main page</a></li>
+                <li><a href="../info/about-us.html?from=flowers%2Fredrose.html">About Us</a></li>
+                <li><a href="../info/our-story.html?from=flowers%2Fredrose.html">Our story</a></li>
+                <li><a href="../info/careers.html?from=flowers%2Fredrose.html">Career</a></li>
+            </ul>
+            <h3>Customer service</h3>
+            <ul>
+                <li><a href="../info/contact-us.html?from=flowers%2Fredrose.html">Contact us</a></li>
+                <li><a href="../info/delivery-info.html?from=flowers%2Fredrose.html">Delivery info</a></li>
+            </ul>
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="../info/privacy-policy.html?from=flowers%2Fredrose.html">Privacy policy</a></li>
+                <li><a href="../info/terms-conditions.html?from=flowers%2Fredrose.html">Terms &amp; conditions</a></li>
+            </ul>
+        </aside>
+
+        <main class="container">
+            <div class="product-detail">
+                <div class="product-image">🌹</div>
+                <div class="product-info">
+                    <h1>Premium Red Rose Bouquet</h1>
+                    <div class="product-rating">★★★★★ <span>(324 reviews)</span></div>
+
+                    <!-- Viewers counter -->
+                    <div class="viewers-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <span id="viewers-count">24</span> people are viewing this right now
+                    </div>
+
+                    <div class="product-price">$24.99</div>
+                    <div class="product-spec">
+                        <p><strong>In Stock:</strong> 45 units available</p>
+                        <p><strong>Size:</strong> <span id="size-display">50</span> cm (approximately <span
+                                id="inches-display">20</span> inches)</p>
+                        <p><strong>Delivery:</strong> Free shipping on orders over $35</p>
+                    </div>
+                    <div class="option-group" style="display: flex; gap: 24px;">
+                        <div>
+                            <label for="quantity">Flowers in bouquet:</label>
+                            <input type="number" id="quantity" min="1" max="101" value="1"
+                                oninput="if(this.value>101)this.value=101; if(this.value<1)this.value=1;">
+                        </div>
+                        <div>
+                            <label for="bouquets">Number of bouquets:</label>
+                            <input type="number" id="bouquets" min="1" max="50" value="1"
+                                oninput="if(this.value>50)this.value=50; if(this.value<1)this.value=1;">
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label for="size">Flower length:</label>
+                        <select id="size"
+                            onchange="document.getElementById('size-display').textContent=this.value; document.getElementById('inches-display').textContent=Math.round(this.value*0.394);">
+                            <option value="40">40 cm</option>
+                            <option value="50" selected>50 cm</option>
+                            <option value="60">60 cm</option>
+                            <option value="70">70 cm</option>
+                            <option value="80">80 cm</option>
+                            <option value="90">90 cm</option>
+                        </select>
+                    </div>
+                    <div class="buttons">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="wishlist">♡ Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab(event, 'tab-description')">Description</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-reviews')">Reviews</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-care')">Care tips</button>
+            </div>
+
+            <div id="tab-description" class="tab-content active">
+                <p>Our premium red rose bouquet is perfect for any occasion. Each arrangement is carefully
+                    hand-crafted by our experienced florists using the freshest red roses available. These
+                    beautiful red roses will brighten any room and make a lasting impression.</p>
+                <p style="margin-top: 15px;"><strong>Features:</strong> Fresh cut red roses, professionally
+                    arranged, available in multiple sizes, includes free shipping, and comes with flower food to keep
+                    your red roses fresh longer.</p>
+            </div>
+
+            <div id="tab-reviews" class="tab-content">
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-name">Anna K.</span>
+                        <span class="review-stars">★★★★★</span>
+                        <span class="review-date">March 12, 2025</span>
+                    </div>
+                    <p>Absolutely stunning bouquet! The red roses were fresh and lasted over two weeks. Will
+                        definitely order again.</p>
+                </div>
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-name">Michael R.</span>
+                        <span class="review-stars">★★★★★</span>
+                        <span class="review-date">February 28, 2025</span>
+                    </div>
+                    <p>Bought this as a gift for my wife and she loved it. Beautiful arrangement and fast delivery.</p>
+                </div>
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-name">Sophie L.</span>
+                        <span class="review-stars">★★★★☆</span>
+                        <span class="review-date">January 15, 2025</span>
+                    </div>
+                    <p>Very pretty flowers, packaging was excellent. Took off one star only because delivery was a day
+                        late.</p>
+                </div>
+            </div>
+
+            <div id="tab-care" class="tab-content">
+                <div class="care-grid">
+                    <div class="care-item">
+                        <div class="care-icon">💧</div>
+                        <h4>Water regularly</h4>
+                        <p>Change water every 2 days. Cut stems at an angle before placing in vase.</p>
+                    </div>
+                    <div class="care-item">
+                        <div class="care-icon">🌡️</div>
+                        <h4>Keep cool</h4>
+                        <p>Store in a cool place away from direct sunlight and heat sources.</p>
+                    </div>
+                    <div class="care-item">
+                        <div class="care-icon">✂️</div>
+                        <h4>Trim stems</h4>
+                        <p>Trim 1-2 cm from the bottom of stems every few days to help absorption.</p>
+                    </div>
+                    <div class="care-item">
+                        <div class="care-icon">🧴</div>
+                        <h4>Use flower food</h4>
+                        <p>Add the included flower food packet to your water for longer freshness.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- You might also like -->
+            <div class="also-like">
+                <h2>You might also like</h2>
+                <div class="also-like-grid">
+                    <a href="redrose.html" class="also-card">
+                        <div class="also-image">🌹</div>
+                        <div class="also-info">
+                            <div class="also-title">Red Rose</div>
+                            <div class="also-price">$24.99</div>
+                        </div>
+                    </a>
+                    <a href="tulip.html" class="also-card">
+                        <div class="also-image">🌷</div>
+                        <div class="also-info">
+                            <div class="also-title">Tulip</div>
+                            <div class="also-price">$18.99</div>
+                        </div>
+                    </a>
+                    <a href="daisy.html" class="also-card">
+                        <div class="also-image">🌼</div>
+                        <div class="also-info">
+                            <div class="also-title">Daisy</div>
+                            <div class="also-price">$16.99</div>
+                        </div>
+                    </a>
+                    <a href="sunflower.html" class="also-card">
+                        <div class="also-image">🌻</div>
+                        <div class="also-info">
+                            <div class="also-title">Sunflower</div>
+                            <div class="also-price">$22.99</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <h3>BLOOM</h3>
+                <p>Premium flowers since 2020. Delivering beauty and freshness across Armenia.</p>
+                <div class="footer-contact">
+                    <span>📍 123 Flower Street, Yerevan 0001</span>
+                    <span>✉️ support@bloom.com</span>
+                    <span>📞 +374 000-000-BLOOM</span>
+                </div>
+                <span class="footer-badge">Yerevan, Armenia</span>
+            </div>
+            <div class="footer-col">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">About Bloom</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Delivery info</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy policy</a></li>
+                    <li><a href="#">Terms & conditions</a></li>
+                    <li><a href="#">Cookie policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">В© 2020 BLOOM. All rights reserved.</span>
+            <div class="footer-socials"><a href="#">FB</a><a href="#">IG</a><a href="#">TW</a></div>
+        </div>
+    </footer>
+
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+    <script src="../cart.js"></script>
+    <script>
+        // Page loader
+        window.addEventListener('load', function () {
+            const loader = document.getElementById('page-loader');
+            loader.classList.add('hidden');
+        });
+
+        document.querySelectorAll('a[href]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    const loader = document.getElementById('page-loader');
+                    loader.classList.remove('hidden');
+                    setTimeout(() => { window.location.href = href; }, 400);
+                }
+            });
+        });
+
+        // Tabs
+        function switchTab(e, id) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            e.target.classList.add('active');
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Viewers counter
+        let viewers = Math.floor(Math.random() * 15) + 18;
+        document.getElementById('viewers-count').textContent = viewers;
+        setInterval(() => {
+            const change = Math.random() > 0.5 ? 1 : -1;
+            viewers = Math.max(10, Math.min(50, viewers + change));
+            document.getElementById('viewers-count').textContent = viewers;
+        }, 4000);
+    </script>
+
+    <script>
+        const SIZE_PRICES = {
+            40: 19.99,
+            50: 28.99,
+            60: 34.99,
+            70: 41.99,
+            80: 49.99,
+            90: 57.99
+        };
+
+        function updatePrice() {
+            const size = parseInt(document.getElementById('size').value);
+            const stems = parseInt(document.getElementById('quantity').value) || 1;
+            const bouquets = parseInt(document.getElementById('bouquets').value) || 1;
+
+            const basePrice = SIZE_PRICES[size] || 28.99;
+
+            // Цена за стебель — чем больше цветков в букете тем дешевле каждый
+            let stemPrice;
+            if (stems >= 20) stemPrice = basePrice * 0.10;
+            else if (stems >= 10) stemPrice = basePrice * 0.12;
+            else if (stems >= 5) stemPrice = basePrice * 0.14;
+            else stemPrice = basePrice * 0.15;
+
+            const pricePerBouquet = basePrice + (stems - 1) * stemPrice;
+
+            // Скидка за количество букетов
+            let bouquetDiscount = 0;
+            if (bouquets >= 10) bouquetDiscount = 0.20;
+            else if (bouquets >= 5) bouquetDiscount = 0.10;
+            else if (bouquets >= 3) bouquetDiscount = 0.05;
+
+            const total = pricePerBouquet * bouquets * (1 - bouquetDiscount);
+
+            document.querySelector('.product-price').textContent = '$' + total.toFixed(2);
+
+            // Показываем инфо
+            let infoEl = document.getElementById('price-info');
+            if (!infoEl) {
+                infoEl = document.createElement('div');
+                infoEl.id = 'price-info';
+                const isDark = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
+                infoEl.style.cssText = `font-size: 13px; margin-top: 6px; color: ${isDark ? '#aaa' : '#666'}; line-height: 1.6;`; document.querySelector('.product-price').after(infoEl);
+            }
+
+            let infoText = `$${pricePerBouquet.toFixed(2)} per bouquet × ${bouquets}`;
+            if (bouquetDiscount > 0) {
+                const isDarkSpan = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
+                infoText += ` <span style="color:${isDarkSpan ? '#7fbf9a' : '#2d6a2d'}; font-weight:600;">— ${bouquetDiscount * 100}% off for ${bouquets}+ bouquets 🎉</span>`;
+            }
+            infoEl.innerHTML = infoText;
+        }
+
+        document.getElementById('size').addEventListener('change', function () {
+            document.getElementById('size-display').textContent = this.value;
+            document.getElementById('inches-display').textContent = Math.round(this.value * 0.394);
+            updatePrice();
+        });
+
+        document.getElementById('quantity').addEventListener('input', updatePrice);
+        document.getElementById('bouquets').addEventListener('input', updatePrice);
+    </script>
+
+</body>
+
+</html>

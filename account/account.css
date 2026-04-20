@@ -1,0 +1,429 @@
+.account-layout {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+    gap: 28px;
+    align-items: flex-start;
+    min-height: calc(100vh - 58px);
+    box-sizing: border-box;
+}
+
+.account-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #ece8e0;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.account-sidebar h2 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a09a90;
+    margin: 4px 10px 10px;
+}
+
+.account-sidebar a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #444;
+    text-decoration: none;
+    margin-bottom: 2px;
+    transition: background 0.12s, color 0.12s;
+}
+
+.account-sidebar a:hover {
+    background: #f5f2ec;
+    color: #1c3d2a;
+}
+
+.account-sidebar a.is-active {
+    background: #e4efe4;
+    color: #1c3d2a;
+    font-weight: 600;
+}
+
+.account-sidebar .account-sidebar-back {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f0ede6;
+    font-size: 13px;
+    color: #1c3d2a;
+    font-weight: 600;
+}
+
+.account-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.account-panel {
+    background: #fff;
+    border: 1px solid #ece8e0;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+}
+
+.account-panel h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1c1c1c;
+    margin: 0 0 8px;
+}
+
+.account-panel h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1c3d2a;
+    margin: 0 0 10px;
+}
+
+.account-panel>p.lead {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0 0 20px;
+}
+
+.account-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.account-stat-card {
+    border: 1px solid #ece8e0;
+    border-radius: 10px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.account-stat-card:hover {
+    border-color: #8aab8a;
+    box-shadow: 0 6px 20px rgba(28, 61, 42, 0.08);
+}
+
+.account-stat-card strong {
+    display: block;
+    font-size: 13px;
+    color: #a09a90;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.account-stat-card span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c3d2a;
+}
+
+.account-order-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0ede6;
+    font-size: 14px;
+}
+
+.account-order-row:last-child {
+    border-bottom: none;
+}
+
+.account-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #e4efe4;
+    color: #1c3d2a;
+}
+
+.account-wish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.account-wish-card {
+    border: 1px solid #ece8e0;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background: #faf9f6;
+}
+
+.account-wish-card .emoji {
+    font-size: 48px;
+    text-align: center;
+    padding: 20px;
+    background: #f0ebe0;
+}
+
+.account-wish-card .meta {
+    padding: 12px 14px;
+}
+
+.account-wish-card .meta strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.account-setting-block {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f0ede6;
+}
+
+.account-setting-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.account-setting-block h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c3d2a;
+    margin: 0 0 12px;
+}
+
+.account-setting-block p.hint {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 14px;
+}
+
+.theme-toggle-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.theme-btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid #e5e0d8;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.12s, border-color 0.12s;
+}
+
+.theme-btn:hover {
+    background: #f5f2ec;
+}
+
+.theme-btn.is-selected {
+    border-color: #1c3d2a;
+    background: #e4efe4;
+    font-weight: 600;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 420px;
+}
+
+.toggle-row label {
+    font-size: 14px;
+    color: #333;
+}
+
+html[data-bloom-theme="dark"] body {
+    background: #1a1d20;
+    color: #eaeaea;
+}
+
+html[data-bloom-theme="dark"] .navbar {
+    background: #1c1f22;
+    border-color: #2b2f33;
+}
+
+html[data-bloom-theme="dark"] .container {
+    background: transparent;
+}
+
+/* ── Sidebar ── */
+html[data-bloom-theme="dark"] .account-sidebar {
+    background: #1c1f22;
+    border-color: #2b2f33;
+    color: #eaeaea;
+}
+
+html[data-bloom-theme="dark"] .account-sidebar h2 {
+    color: #6b7280;
+}
+
+html[data-bloom-theme="dark"] .account-sidebar a {
+    color: #c9c9c9;
+}
+
+html[data-bloom-theme="dark"] .account-sidebar a:hover {
+    background: #23272b;
+    color: #ffffff;
+}
+
+html[data-bloom-theme="dark"] .account-sidebar a.is-active {
+    background: #1e3328;
+    color: #7fbf9a;
+    font-weight: 600;
+}
+
+html[data-bloom-theme="dark"] .account-sidebar .account-sidebar-back {
+    border-top-color: #2b2f33;
+    color: #7fbf9a;
+}
+
+html[data-bloom-theme="dark"] .account-sidebar .account-sidebar-back:hover {
+    color: #a0d4b8;
+}
+
+/* ── Panels ── */
+html[data-bloom-theme="dark"] .account-panel {
+    background: #1c1f22;
+    border-color: #2b2f33;
+    color: #eaeaea;
+}
+
+html[data-bloom-theme="dark"] .account-panel h1 {
+    color: #f2f2f2;
+}
+
+html[data-bloom-theme="dark"] .account-panel h2 {
+    color: #7fbf9a;
+}
+
+html[data-bloom-theme="dark"] .account-panel > p.lead {
+    color: #9ca3af;
+}
+
+/* ── Ссылки внутри панели (включая "← Back to product") ── */
+html[data-bloom-theme="dark"] .account-panel a {
+    color: #7fbf9a;
+}
+
+html[data-bloom-theme="dark"] .account-panel a:hover {
+    color: #a0d4b8;
+}
+
+/* ── Info article (страницы terms, privacy и т.д.) ── */
+html[data-bloom-theme="dark"] .info-article {
+    background: #1c1f22;
+    border-color: #2b2f33;
+}
+
+html[data-bloom-theme="dark"] .info-article a {
+    color: #7fbf9a;
+}
+
+html[data-bloom-theme="dark"] .info-article a:hover {
+    color: #a0d4b8;
+}
+
+html[data-bloom-theme="dark"] .info-article h1,
+html[data-bloom-theme="dark"] .info-article h2 {
+    color: #7fbf9a;
+}
+
+html[data-bloom-theme="dark"] .info-article p {
+    color: #c9c9c9;
+}
+
+html[data-bloom-theme="dark"] .info-article li {
+    color: #b0b8b0;
+}
+
+/* ── Stat cards ── */
+html[data-bloom-theme="dark"] .account-stat-card {
+    background: #1c1f22;
+    border-color: #2b2f33;
+    color: #eaeaea;
+}
+
+html[data-bloom-theme="dark"] .account-stat-card:hover {
+    border-color: #5f9f7c;
+}
+
+html[data-bloom-theme="dark"] .account-stat-card strong {
+    color: #6b7280;
+}
+
+html[data-bloom-theme="dark"] .account-stat-card span {
+    color: #7fbf9a;
+}
+
+/* ── Orders ── */
+html[data-bloom-theme="dark"] .account-order-row {
+    border-color: #2b2f33;
+    color: #dcdcdc;
+}
+
+html[data-bloom-theme="dark"] .account-badge {
+    background: #1e3328;
+    color: #7fbf9a;
+}
+
+/* ── Wishlist ── */
+html[data-bloom-theme="dark"] .account-wish-card {
+    background: #1c1f22;
+    border-color: #2b2f33;
+    color: #eaeaea;
+}
+
+html[data-bloom-theme="dark"] .account-wish-card .emoji {
+    background: #22262a;
+}
+
+/* ── Settings ── */
+html[data-bloom-theme="dark"] .account-setting-block {
+    border-bottom-color: #2b2f33;
+}
+
+html[data-bloom-theme="dark"] .account-setting-block h2 {
+    color: #7fbf9a;
+}
+
+html[data-bloom-theme="dark"] .account-setting-block p.hint {
+    color: #6b7280;
+}
+
+html[data-bloom-theme="dark"] .toggle-row label {
+    color: #c9c9c9;
+}
+
+/* ── Theme buttons ── */
+html[data-bloom-theme="dark"] .theme-btn {
+    background: #23272b;
+    border-color: #3a3f45;
+    color: #e6e6e6;
+}
+
+html[data-bloom-theme="dark"] .theme-btn:hover {
+    background: #2b3136;
+}
+
+html[data-bloom-theme="dark"] .theme-btn.is-selected {
+    background: #1e3328;
+    border-color: #5f9f7c;
+    color: #7fbf9a;
+    font-weight: 600;
+}

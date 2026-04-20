@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - BLOOM</title>
+    <link rel="stylesheet" href="../product.css">
+    <link rel="stylesheet" href="account.css">
+    <script src="account-guard.js"></script>
+    <script>
+        (function () {
+            const t = localStorage.getItem('bloom_theme');
+            if (t === 'dark' || t === 'light') {
+                document.documentElement.setAttribute('data-bloom-theme', t);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <nav class="navbar">
+        <a class="nav-logo" href="../bloomsite.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C9 2 6 5 6 8c0 4 6 12 6 12s6-8 6-12c0-3-3-6-6-6z" fill="#c0392b" opacity="0.85" />
+                <circle cx="12" cy="8" r="2.2" fill="#fff" opacity="0.9" />
+            </svg>
+            <span>BLOOM</span>
+        </a>
+        <div class="nav-spacer"></div>
+        <div class="nav-actions">
+            <button class="nav-cart" title="Cart" onclick="toggleCart()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="nav-badge" id="cart-count" style="display:none;">0</span>
+            </button>
+            <div class="cart-dropdown" id="cart-dropdown">
+                <p class="cart-title">Your cart</p>
+                <div id="cart-items">
+                    <p class="cart-empty">No items yet</p>
+                </div>
+                <div class="cart-total">Total: <strong id="cart-total">$0.00</strong></div>
+            </div>
+            <div id="auth-buttons">
+                <a href="../login.html"><button class="nav-btn-login">Log in</button></a>
+                <a href="../signup.html"><button class="nav-btn-signup">Sign up</button></a>
+            </div>
+            <div id="account-menu" style="display:none; position:relative;">
+                <button class="nav-account-btn" onclick="toggleAccount()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                    <span id="account-name"></span>
+                </button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <div class="account-dropdown-header"><span id="account-email"></span></div>
+                    <a href="my-account.html" class="account-item">My account</a>
+                    <a href="orders.html" class="account-item">My orders</a>
+                    <a href="wishlist.html" class="account-item">Wishlist</a>
+                    <a href="settings.html" class="account-item">Settings</a>
+                    <div class="account-divider"></div>
+                    <a href="#" class="account-item account-logout" onclick="logout(); return false;">Log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="account-layout">
+        <aside class="account-sidebar">
+            <h2>Account</h2>
+            <a href="my-account.html">Overview</a>
+            <a href="orders.html">My orders</a>
+            <a href="wishlist.html" class="is-active">Wishlist</a>
+            <a href="settings.html">Theme &amp; settings</a>
+            <a href="../bloomsite.html" class="account-sidebar-back">← Back to shop</a>
+        </aside>
+
+        <div class="account-main">
+            <div class="account-panel">
+                <h1>Wishlist</h1>
+                <p class="lead">Items you have saved. Click a card to view the product.</p>
+                <div class="account-wish-grid" id="wish-grid"></div>
+                <p id="wish-empty" style="display:none; color:#a09a90; font-size:14px; margin-top:8px;">You haven't
+                    saved anything yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../cart.js"></script>
+    <script>
+        const slugMap = {
+            'Premium Red Rose Bouquet': ['redrose', '🌹'],
+            'Premium Tulip Bouquet': ['tulip', '🌷'],
+            'Premium Cherry Blossom Bouquet': ['cherry-blossom', '🌸'],
+            'Premium Daisy Bouquet': ['daisy', '🌼'],
+            'Premium Hibiscus Bouquet': ['hibiscus', '🌺'],
+            'Premium Sunflower Bouquet': ['sunflower', '🌻'],
+        };
+
+        function renderWishlist() {
+            const items = JSON.parse(localStorage.getItem('bloom_wishlist') || '[]');
+            const grid = document.getElementById('wish-grid');
+            const empty = document.getElementById('wish-empty');
+
+            if (items.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            grid.innerHTML = items.map((item, i) => {
+                const [slug, emoji] = slugMap[item.name] || ['redrose', '🌸'];
+                const shortName = item.name.replace('Premium ', '').replace(' Bouquet', '');
+                return `
+        <div class="account-wish-card" style="position:relative;">
+          <a href="../flowers/${slug}.html" style="text-decoration:none;color:inherit;display:block;">
+            <div class="emoji">${emoji}</div>
+            <div class="meta">
+              <strong>${shortName}</strong>
+              <span style="font-size:13px;color:#b5763a;display:block;margin-top:2px;">${item.price}</span>
+            </div>
+          </a>
+          <button onclick="removeWishItem(${i})" style="
+            position:absolute; top:8px; right:8px;
+            background:none; border:none;
+            font-size:16px; color:#ccc;
+            border-radius:50%; width:26px; height:26px;
+            display:flex; align-items:center; justify-content:center;
+            transition:color 0.15s, background 0.15s;
+          " onmouseover="this.style.color='#b5763a';this.style.background='#fdf6ee'"
+             onmouseout="this.style.color='#ccc';this.style.background='none'"
+             title="Remove from wishlist">×</button>
+        </div>`;
+            }).join('');
+        }
+
+        function removeWishItem(index) {
+            const items = JSON.parse(localStorage.getItem('bloom_wishlist') || '[]');
+            items.splice(index, 1);
+            localStorage.setItem('bloom_wishlist', JSON.stringify(items));
+            renderWishlist();
+        }
+
+        renderWishlist();
+    </script>
+</body>
+
+</html>

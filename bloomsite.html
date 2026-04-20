@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloom - Premium Flowers</title>
+  <link rel="stylesheet" href="bloom.css">
+</head>
+
+<body>
+  <div id="cursor"></div>
+  <div id="cursor-dot"></div>
+  <nav class="navbar">
+    <a class="nav-logo" href="#">
+      <span>BLOOM</span>
+    </a>
+
+    <div class="nav-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="17" y1="17" x2="22" y2="22" />
+      </svg>
+      <input type="search" id="nav-search-input" placeholder="Search flowers, bouquets…" autocomplete="off" />
+    </div>
+
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-cart" title="Cart" onclick="toggleCart()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 01-8 0" />
+        </svg>
+        <span class="nav-badge" id="cart-count" style="display:none;">0</span>
+      </button>
+
+      <div class="cart-dropdown" id="cart-dropdown">
+        <p class="cart-title">Your cart</p>
+        <div id="cart-items">
+          <p class="cart-empty">No items yet</p>
+        </div>
+        <div class="cart-total">Total: <strong id="cart-total">$0.00</strong></div>
+      </div>
+
+      <div id="auth-buttons">
+        <a href="login.html"><button class="nav-btn-login">Log in</button></a>
+        <a href="signup.html"><button class="nav-btn-signup">Sign up</button></a>
+      </div>
+
+      <div id="account-menu" style="display:none; position:relative;">
+        <button class="nav-account-btn" onclick="toggleAccount()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+          <span id="account-name"></span>
+        </button>
+
+        <div class="account-dropdown" id="account-dropdown">
+          <div class="account-dropdown-header">
+            <span id="account-email"></span>
+          </div>
+          <a href="account/my-account.html" class="account-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+            My account
+          </a>
+          <a href="account/orders.html" class="account-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            My orders
+          </a>
+          <a href="account/wishlist.html" class="account-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+            </svg>
+            Wishlist
+          </a>
+          <a href="account/settings.html" class="account-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+            Settings
+          </a>
+          <div class="account-divider"></div>
+          <a href="#" class="account-item account-logout" onclick="logout()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Log out
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="main-wrapper">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <h3>Flowers</h3>
+        <ul class="flowers-list">
+          <li class="flower-nav-item" data-search="red rose redrose classic love"><a href="flowers/redrose.html"
+              class="card">Red Rose</a></li>
+          <li class="flower-nav-item" data-search="tulip vibrant graceful colors"><a href="flowers/tulip.html"
+              class="card">Tulip</a></li>
+          <li class="flower-nav-item" data-search="sunflower sun bright yellow cheerful"><a
+              href="flowers/sunflower.html" class="card">Sunflower</a></li>
+          <li class="flower-nav-item" data-search="hibiscus exotic tropical"><a href="flowers/hibiscus.html"
+              class="card">Hibiscus</a></li>
+          <li class="flower-nav-item" data-search="daisy pure delicate bouquet"><a href="flowers/daisy.html"
+              class="card">Daisy</a></li>
+          <li class="flower-nav-item" data-search="cherry blossom cherryblossom sakura pink seasonal romantic"><a
+              href="flowers/cherry-blossom.html" class="card">Cherry Blossom</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Support</h3>
+        <div class="support-info">
+          <h4>FAQ</h4>
+          <a href="#faq">View Questions</a>
+        </div>
+        <div class="support-info">
+          <h4>Follow Us</h4>
+          <a href="https://instagram.com" target="_blank">Instagram</a>
+          <a href="https://telegram.org" target="_blank">Telegram</a>
+        </div>
+        <div class="support-info">
+          <h4>Contact</h4>
+          <p>Email: support@bloom.com</p>
+          <p>Phone: +374000000-BLOOM</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>About</h3>
+        <p><strong>Location:</strong> Yerevan, Armenia</p>
+        <p><strong>Address:</strong> 123 Flower Street, Yerevan 0001</p>
+        <p>Premium flowers since 2020. Delivering beauty across Armenia.</p>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="hero" id="catalog-hero">
+        <img src="logo-dark.png" class="hero-logo hero-logo-dark" alt="BLOOM" />
+        <h2>Elegant Flowers for Every Moment</h2>
+        <p>Discover our premium collection of fresh, beautiful blooms</p>
+      </div>
+
+      <p id="search-results-info" class="search-results-info" hidden role="status" aria-live="polite"></p>
+
+      <div class="cards-grid" id="flowers-catalog">
+
+        <div class="card flower-card" data-search="red rose redrose classic love elegance symbol">
+          <a href="flowers/redrose.html" class="card-link">
+            <div class="card-image">🌹</div>
+            <div class="card-content">
+              <div class="card-title">Red Rose</div>
+              <div class="card-description">Classic symbol of love and elegance. Fresh cut, long-lasting petals.</div>
+              <div class="card-price">$24.99</div>
+            </div>
+          </a>
+          <div class="card-content-bottom">
+            <button class="card-button">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="card flower-card" data-search="tulip vibrant graceful colors bouquet">
+          <a href="flowers/tulip.html" class="card-link">
+            <div class="card-image">🌷</div>
+            <div class="card-content">
+              <div class="card-title">Tulip</div>
+              <div class="card-description">Vibrant and graceful. Available in multiple colors for any occasion.</div>
+              <div class="card-price">$18.99</div>
+            </div>
+          </a>
+          <div class="card-content-bottom">
+            <button class="card-button">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="card flower-card" data-search="sunflower sun bright yellow cheerful warmth">
+          <a href="flowers/sunflower.html" class="card-link">
+            <div class="card-image">🌻</div>
+            <div class="card-content">
+              <div class="card-title">Sunflower</div>
+              <div class="card-description">Bright and cheerful. Brings warmth and positivity to any space.</div>
+              <div class="card-price">$22.99</div>
+            </div>
+          </a>
+          <div class="card-content-bottom">
+            <button class="card-button">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="card flower-card" data-search="hibiscus exotic tropical arrangement gift">
+          <a href="flowers/hibiscus.html" class="card-link">
+            <div class="card-image">🌺</div>
+            <div class="card-content">
+              <div class="card-title">Hibiscus</div>
+              <div class="card-description">Exotic and tropical. Perfect for exotic arrangements and gifts.</div>
+              <div class="card-price">$26.99</div>
+            </div>
+          </a>
+          <div class="card-content-bottom">
+            <button class="card-button">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="card flower-card" data-search="daisy pure delicate timeless bouquet fresh">
+          <a href="flowers/daisy.html" class="card-link">
+            <div class="card-image">🌼</div>
+            <div class="card-content">
+              <div class="card-title">Daisy</div>
+              <div class="card-description">Pure and delicate. A timeless favorite for fresh bouquets.</div>
+              <div class="card-price">$16.99</div>
+            </div>
+          </a>
+          <div class="card-content-bottom">
+            <button class="card-button">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="card flower-card"
+          data-search="cherry blossom cherryblossom sakura pink seasonal romantic fragrance">
+          <a href="flowers/cherry-blossom.html" class="card-link">
+            <div class="card-image">🌸</div>
+            <div class="card-content">
+              <div class="card-title">Cherry Blossom</div>
+              <div class="card-description">Delicate and romantic. Seasonal beauty with subtle fragrance.</div>
+              <div class="card-price">$28.99</div>
+            </div>
+          </a>
+          <div class="card-content-bottom">
+            <button class="card-button">Add to Cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>BLOOM</h3>
+        <p>Premium flowers since 2020. Delivering beauty and freshness across Armenia.</p>
+        <div class="footer-contact">
+          <span>📍 123 Flower Street, Yerevan 0001</span>
+          <span>✉️ support@bloom.com</span>
+          <span>📞 +374 000-000-BLOOM</span>
+        </div>
+        <span class="footer-badge">Yerevan, Armenia</span>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="info/about-us.html">About Bloom</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          
+          <li><a href="info/contact-us.html">Contact us</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="info/privacy-policy.html">Privacy policy</a></li>
+          <li><a href="info/terms-conditions.html">Terms & conditions</a></li>
+          <li><a href="#">Cookie policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2020 BLOOM. All rights reserved.</span>
+      <div class="footer-socials">
+        <a href="#">FB</a>
+        <a href="#">IG</a>
+        <a href="#">TW</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="cart.js"></script>
+  <script>
+    (function () {
+      var input = document.getElementById('nav-search-input');
+      var grid = document.getElementById('flowers-catalog');
+      var hero = document.getElementById('catalog-hero');
+      var info = document.getElementById('search-results-info');
+      if (!input || !grid) return;
+
+      var cards = grid.querySelectorAll('.flower-card');
+      var navItems = document.querySelectorAll('.flowers-list .flower-nav-item');
+
+      function normalize(s) {
+        return String(s || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function matches(haystack, queryNorm) {
+        if (!queryNorm) return true;
+        if (haystack.indexOf(queryNorm) !== -1) return true;
+        var parts = queryNorm.split(' ').filter(Boolean);
+        if (!parts.length) return true;
+        for (var i = 0; i < parts.length; i++) {
+          if (haystack.indexOf(parts[i]) === -1) return false;
+        }
+        return true;
+      }
+
+      function applyFilter() {
+        var raw = input.value;
+        var queryNorm = normalize(raw);
+        var visible = 0;
+
+        cards.forEach(function (card) {
+          var hay = normalize(card.getAttribute('data-search') || '');
+          var ok = matches(hay, queryNorm);
+          card.hidden = !ok;
+          if (ok) visible++;
+        });
+
+        navItems.forEach(function (li) {
+          var hay = normalize(li.getAttribute('data-search') || '');
+          li.hidden = !matches(hay, queryNorm);
+        });
+
+        if (queryNorm) {
+          if (hero) hero.hidden = true;
+          info.hidden = false;
+          info.textContent = visible
+            ? 'По запросу «' + raw.trim() + '» — показано ' + visible + ' из ' + cards.length + '.'
+            : 'По запросу «' + raw.trim() + '» ничего не найдено.';
+        } else {
+          if (hero) hero.hidden = false;
+          info.hidden = true;
+          info.textContent = '';
+          navItems.forEach(function (li) { li.hidden = false; });
+        }
+      }
+
+      input.addEventListener('input', applyFilter);
+      input.addEventListener('search', applyFilter);
+    })();
+  </script>
+
+<script>
+  (function () {
+      const flowerImages = {
+          'red rose': ['🌹', '🌺', '💐'],
+          'tulip': ['🌷', '💐', '🌸'],
+          'sunflower': ['🌻', '🌼', '☀️'],
+          'hibiscus': ['🌺', '🌸', '💮'],
+          'daisy': ['🌼', '🌸', '💐'],
+          'cherry blossom': ['🌸', '🌷', '💮']
+      };
+
+      document.querySelectorAll('.flower-card').forEach(function (card) {
+          const titleEl = card.querySelector('.card-title');
+          const imageEl = card.querySelector('.card-image');
+          if (!titleEl || !imageEl) return;
+
+          const key = titleEl.textContent.trim().toLowerCase();
+          const images = flowerImages[key];
+          if (!images) return;
+
+          let interval = null;
+          let index = 0;
+          const original = imageEl.textContent;
+
+          card.addEventListener('mouseenter', function () {
+              index = 0;
+              imageEl.style.transition = 'opacity 0.2s';
+              interval = setInterval(function () {
+                  imageEl.style.opacity = '0';
+                  setTimeout(function () {
+                      index = (index + 1) % images.length;
+                      imageEl.textContent = images[index];
+                      imageEl.style.opacity = '1';
+                  }, 200);
+              }, 1100);
+          });
+
+          card.addEventListener('mouseleave', function () {
+              clearInterval(interval);
+              imageEl.style.opacity = '0';
+              setTimeout(function () {
+                  imageEl.textContent = original;
+                  imageEl.style.opacity = '1';
+              }, 200);
+          });
+      });
+  })();
+</script>
+
+</body>
+
+</html>

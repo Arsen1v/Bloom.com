@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script>
+        (function () {
+            var t = localStorage.getItem('bloom_theme');
+            if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-bloom-theme', t);
+        })();
+    </script>
+</head>
+<script>
+    function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const err = document.getElementById('error-msg');
+
+        if (!email.includes('@') || !email.includes('.')) {
+            err.style.display = 'block';
+            err.textContent = 'Please enter a valid email address';
+            return;
+        }
+
+        if (password.length < 6) {
+            err.style.display = 'block';
+            err.textContent = 'Password must be at least 6 characters';
+            return;
+        }
+
+        err.style.display = 'none';
+        const name = email.split('@')[0];
+        localStorage.setItem('bloom_user', name);
+        localStorage.setItem('bloom_email', email);
+        const params = new URLSearchParams(window.location.search);
+        const ret = params.get('return');
+        if (ret && /^account\/[a-z0-9._-]+\.html$/i.test(ret)) {
+            window.location.href = ret;
+        } else {
+            window.location.href = 'bloomsite.html';
+        }
+    }
+</script>
+
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-btn" onclick="handleLogin(event)">Sign In</button>
+        </form>
+        <div id="error-msg"
+            style="display:none; background:#fdf6ee; border:1px solid #e5e0d8; color:#b5763a; font-size:13px; padding:10px 14px; border-radius:8px; margin-bottom:16px;">
+        </div>
+
+        <div class="login-footer">
+            Don't have an account? <a href="signup.html" id="login-signup-link">Sign up</a>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var r = new URLSearchParams(location.search).get('return');
+            if (!r) return;
+            var a = document.getElementById('login-signup-link');
+            if (a) a.href = 'signup.html?return=' + encodeURIComponent(r);
+        })();
+    </script>
+</body>
+
+</html>
