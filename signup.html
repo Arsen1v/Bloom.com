@@ -87,6 +87,29 @@
             if (a) a.href = 'login.html?return=' + encodeURIComponent(r);
         })();
     </script>
+
+<script>
+function handleLogin(event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  
+  const users = JSON.parse(localStorage.getItem('bloom_users') || '[]');
+  const user = users.find(u => u.email === email && u.password === password);
+  
+  if (user) {
+    localStorage.setItem('bloom_user', user.name);
+    localStorage.setItem('bloom_email', user.email);
+    window.location.href = 'index.html';
+  } else {
+    const err = document.getElementById('error-msg');
+    err.style.display = 'block';
+    err.textContent = 'Wrong email or password';
+  }
+}
+</script>
+    
 </body>
 
 </html>
