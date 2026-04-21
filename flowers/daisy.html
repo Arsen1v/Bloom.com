@@ -333,10 +333,13 @@
     <div id="cursor"></div>
     <div id="cursor-dot"></div>
     <script>
+        // Stock
+        let stock = parseInt(localStorage.getItem('bloom_stock_cherry') || '45');
+        document.getElementById('stock-count').textContent = stock;
+
         // Page loader
         window.addEventListener('load', function () {
-            const loader = document.getElementById('page-loader');
-            loader.classList.add('hidden');
+            document.getElementById('page-loader').classList.add('hidden');
         });
 
         document.querySelectorAll('a[href]').forEach(link => {
@@ -344,8 +347,7 @@
                 const href = this.getAttribute('href');
                 if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
                     e.preventDefault();
-                    const loader = document.getElementById('page-loader');
-                    loader.classList.remove('hidden');
+                    document.getElementById('page-loader').classList.remove('hidden');
                     setTimeout(() => { window.location.href = href; }, 400);
                 }
             });
@@ -367,51 +369,40 @@
             viewers = Math.max(10, Math.min(50, viewers + change));
             document.getElementById('viewers-count').textContent = viewers;
         }, 4000);
-    </script>
 
-    <script>
-        const SIZE_PRICES = {
-            40: 19.99,
-            50: 28.99,
-            60: 34.99,
-            70: 41.99,
-            80: 49.99,
-            90: 57.99
-        };
+        // Price logic
+        const SIZE_PRICES = { 40: 19.99, 50: 28.99, 60: 34.99, 70: 41.99, 80: 49.99, 90: 57.99 };
 
-        function updatePrice() {
-            const size = parseInt(document.getElementById('size').value);
-            const stems = parseInt(document.getElementById('quantity').value) || 1;
-            const bouquets = parseInt(document.getElementById('bouquets').value) || 1;
-
+        function calcPrice(size, stems, bouquets) {
             const basePrice = SIZE_PRICES[size] || 28.99;
-
-            // Цена за стебель — чем больше цветков в букете тем дешевле каждый
             let stemPrice;
             if (stems >= 20) stemPrice = basePrice * 0.10;
             else if (stems >= 10) stemPrice = basePrice * 0.12;
             else if (stems >= 5) stemPrice = basePrice * 0.14;
             else stemPrice = basePrice * 0.15;
-
             const pricePerBouquet = basePrice + (stems - 1) * stemPrice;
-
-            // Скидка за количество букетов
             let bouquetDiscount = 0;
             if (bouquets >= 10) bouquetDiscount = 0.20;
             else if (bouquets >= 5) bouquetDiscount = 0.10;
             else if (bouquets >= 3) bouquetDiscount = 0.05;
+            return { pricePerBouquet, total: pricePerBouquet * bouquets * (1 - bouquetDiscount), bouquetDiscount };
+        }
 
-            const total = pricePerBouquet * bouquets * (1 - bouquetDiscount);
+        function updatePrice() {
+            const size = parseInt(document.getElementById('size').value);
+            const stems = parseInt(document.getElementById('quantity').value) || 1;
+            const bouquets = parseInt(document.getElementById('bouquets').value) || 1;
+            const { pricePerBouquet, total, bouquetDiscount } = calcPrice(size, stems, bouquets);
 
             document.querySelector('.product-price').textContent = '$' + total.toFixed(2);
 
-            // Показываем инфо
             let infoEl = document.getElementById('price-info');
             if (!infoEl) {
                 infoEl = document.createElement('div');
                 infoEl.id = 'price-info';
                 const isDark = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
-                infoEl.style.cssText = `font-size: 13px; margin-top: 6px; color: ${isDark ? '#aaa' : '#666'}; line-height: 1.6;`; document.querySelector('.product-price').after(infoEl);
+                infoEl.style.cssText = `font-size: 13px; margin-top: 6px; color: ${isDark ? '#aaa' : '#666'}; line-height: 1.6;`;
+                document.querySelector('.product-price').after(infoEl);
             }
 
             let infoText = `$${pricePerBouquet.toFixed(2)} per bouquet × ${bouquets}`;
@@ -427,9 +418,60 @@
             document.getElementById('inches-display').textContent = Math.round(this.value * 0.394);
             updatePrice();
         });
-
         document.getElementById('quantity').addEventListener('input', updatePrice);
         document.getElementById('bouquets').addEventListener('input', updatePrice);
+
+        // Add to cart
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.querySelector('.add-to-cart');
+            if (!btn) return;
+
+            btn.addEventListener('click', function () {
+                const titleEl = document.querySelector('.product-info h1');
+                const size = parseInt(document.getElementById('size').value);
+                const stems = parseInt(document.getElementById('quantity').value) || 1;
+                const bouquets = parseInt(document.getElementById('bouquets').value) || 1;
+
+                // Проверяем наличие
+                const stockKey = 'bloom_stock_cherry';
+                let currentStock = parseInt(localStorage.getItem(stockKey) || '45');
+                if (bouquets > currentStock) {
+                    alert(`Only ${currentStock} units available!`);
+                    return;
+                }
+                currentStock -= bouquets;
+                localStorage.setItem(stockKey, currentStock);
+                stock = currentStock;
+
+                const stockEl = document.getElementById('stock-count');
+                if (stockEl) {
+                    stockEl.textContent = currentStock;
+                    if (currentStock <= 5) stockEl.style.color = '#c0392b';
+                    else if (currentStock <= 15) stockEl.style.color = '#e67e22';
+                    else stockEl.style.color = '';
+                }
+
+                const { pricePerBouquet, total, bouquetDiscount } = calcPrice(size, stems, bouquets);
+
+                // Название с деталями: "Cherry Blossom 🌸 — 2 bouquets × 5 flowers, 50cm"
+                const itemName = `${titleEl.textContent.trim()} — ${bouquets} bouquet${bouquets > 1 ? 's' : ''} × ${stems} flower${stems > 1 ? 's' : ''}, ${size}cm`;
+                const itemPrice = '$' + total.toFixed(2);
+
+                // Сохраняем детали отдельно для order.html
+                const cartMeta = JSON.parse(localStorage.getItem('bloom_cart_meta') || '[]');
+                cartMeta.push({ bouquets, stems, size, pricePerBouquet: pricePerBouquet.toFixed(2), discount: bouquetDiscount });
+                localStorage.setItem('bloom_cart_meta', JSON.stringify(cartMeta));
+
+                addToCart(itemName, itemPrice);
+
+                btn.textContent = '✓ Added!';
+                btn.style.background = '#2d6a2d';
+                setTimeout(() => {
+                    btn.textContent = 'Add to Cart';
+                    btn.style.background = '';
+                }, 1500);
+            });
+        });
     </script>
 
 </body>
