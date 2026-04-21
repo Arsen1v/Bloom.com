@@ -333,7 +333,7 @@
     <div id="cursor"></div>
     <div id="cursor-dot"></div>
      <script src="../cart.js"></script>
-   <script>
+  <script>
     // Page loader
     window.addEventListener('load', function () {
         document.getElementById('page-loader').classList.add('hidden');
@@ -358,9 +358,8 @@
         document.getElementById(id).classList.add('active');
     }
 
- // Viewers counter
-let viewers = Math.floor(Math.random() * 15) + 18;
-window.addEventListener('DOMContentLoaded', function() {
+    // Viewers counter
+    let viewers = Math.floor(Math.random() * 15) + 18;
     const viewersEl = document.getElementById('viewers-count');
     if (viewersEl) viewersEl.textContent = viewers;
     setInterval(() => {
@@ -369,13 +368,12 @@ window.addEventListener('DOMContentLoaded', function() {
         const el = document.getElementById('viewers-count');
         if (el) el.textContent = viewers;
     }, 4000);
-});
 
     // Price logic
     const SIZE_PRICES = { 40: 19.99, 50: 28.99, 60: 34.99, 70: 41.99, 80: 49.99, 90: 57.99 };
 
     function calcPrice(size, stems, bouquets) {
-        const basePrice = SIZE_PRICES[size] || 28.99;
+        const basePrice = SIZE_PRICES[size] || 16.99;
         let stemPrice;
         if (stems >= 20) stemPrice = basePrice * 0.10;
         else if (stems >= 10) stemPrice = basePrice * 0.12;
@@ -418,9 +416,8 @@ window.addEventListener('DOMContentLoaded', function() {
     document.getElementById('bouquets').addEventListener('input', updatePrice);
 
     // Add to cart
-    window.addEventListener('DOMContentLoaded', function () {
-        const btn = document.querySelector('.add-to-cart');
-        if (!btn) return;
+    const btn = document.querySelector('.add-to-cart');
+    if (btn) {
         btn.addEventListener('click', function () {
             const titleEl = document.querySelector('.product-info h1');
             const size = parseInt(document.getElementById('size').value);
@@ -440,7 +437,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 btn.style.background = '';
             }, 1500);
         });
-    });
+    }
 </script>
 
 </body>
