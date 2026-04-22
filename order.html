@@ -243,7 +243,7 @@
     <div id="cursor-dot"></div>
 
     <nav class="navbar">
-        <a class="nav-logo" href="bloomsite.html">
+        <a class="nav-logo" href="index.html">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2C9 2 6 5 6 8c0 4 6 12 6 12s6-8 6-12c0-3-3-6-6-6z" fill="#c0392b" opacity="0.85" />
                 <circle cx="12" cy="8" r="2.2" fill="#fff" opacity="0.9" />
@@ -535,7 +535,7 @@
             overlay.innerHTML = '<div style="text-align:center;"><div class="success-emoji" style="color:' + color + ';">BLOOM</div><div class="success-title" style="color:' + color + ';">' + t('order.success.title') + '</div>' + dateLine + '<div class="success-subtitle">' + t('order.success.redirect') + '</div><div id="bloom-success-bar" style="background:' + color + ';"></div></div>';
             document.body.appendChild(overlay);
             setTimeout(function () { var b = document.getElementById('bloom-success-bar'); if (b) b.classList.add('animate'); }, 50);
-            setTimeout(function () { window.location.href = 'bloomsite.html'; }, 2500);
+            setTimeout(function () { window.location.href = 'index.html'; }, 2500);
         }
 
         document.querySelectorAll('input[name="delivery"]').forEach(function (r) {
