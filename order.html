@@ -7,12 +7,235 @@
     <title>Checkout - BLOOM</title>
     <link rel="stylesheet" href="product.css">
     <link rel="stylesheet" href="order.css">
+    <script src="i18n.js"></script>
     <script>
         (function () {
-            const t = localStorage.getItem('bloom_theme');
+            var t = localStorage.getItem('bloom_theme');
             if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-bloom-theme', t);
         })();
     </script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shrinkBar {
+            from {
+                width: 160px;
+            }
+
+            to {
+                width: 0px;
+            }
+        }
+
+        body.alert-open #cursor,
+        body.alert-open #cursor-dot {
+            display: none !important;
+        }
+
+        body.alert-open,
+        body.alert-open * {
+            cursor: default !important;
+        }
+
+        #bloom-success-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            animation: fadeIn 0.35s ease forwards;
+            cursor: default;
+        }
+
+        #bloom-success-overlay .success-emoji {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+            animation: popIn 0.5s ease forwards;
+        }
+
+        #bloom-success-overlay .success-title {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #bloom-success-overlay .success-subtitle {
+            font-size: 15px;
+            color: #888;
+            margin-bottom: 24px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #bloom-success-overlay .success-date {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #bloom-success-bar {
+            width: 160px;
+            height: 3px;
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        #bloom-success-bar.animate {
+            animation: shrinkBar 2.5s linear forwards;
+        }
+
+        .promo-block {
+            margin: 14px 0 0;
+        }
+
+        .promo-block+.place-order-btn {
+            margin-top: 4px;
+        }
+
+        .promo-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 9px 13px;
+            font-size: 13px;
+            font-family: inherit;
+            border: 1px solid #e5e0d8;
+            border-radius: 8px;
+            background: #f5f2ec;
+            color: #2a2a2a;
+            outline: none;
+            letter-spacing: 0.05em;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .promo-input:focus {
+            border-color: #8aab8a;
+            background: #fff;
+        }
+
+        .promo-input::placeholder {
+            color: #b5b0a8;
+            letter-spacing: 0;
+        }
+
+        .promo-apply-btn {
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            background: #1c3d2a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        .promo-apply-btn:hover {
+            background: #142d1f;
+        }
+
+        .promo-apply-btn:disabled {
+            background: #8aab8a;
+            cursor: default;
+        }
+
+        .promo-msg {
+            margin-top: 7px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            min-height: 18px;
+        }
+
+        .promo-msg.valid {
+            color: #2d6a2d;
+        }
+
+        .promo-msg.invalid {
+            color: #b5363a;
+        }
+
+        .order-discount-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #2d6a2d;
+            margin: 4px 0 0;
+            font-weight: 500;
+        }
+
+        html[data-bloom-theme="dark"] .promo-input {
+            background: #242a26;
+            border-color: #3a3f3a;
+            color: #e6e6e6;
+        }
+
+        html[data-bloom-theme="dark"] .promo-input:focus {
+            border-color: #7fbf9a;
+            background: #1c1f22;
+        }
+
+        html[data-bloom-theme="dark"] .promo-apply-btn {
+            background: #2d5a3d;
+        }
+
+        html[data-bloom-theme="dark"] .promo-apply-btn:hover {
+            background: #356a48;
+        }
+
+        html[data-bloom-theme="dark"] .promo-msg.valid {
+            color: #7fbf9a;
+        }
+
+        html[data-bloom-theme="dark"] .order-discount-row {
+            color: #7fbf9a;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +243,7 @@
     <div id="cursor-dot"></div>
 
     <nav class="navbar">
-        <a class="nav-logo" href="index.html">
+        <a class="nav-logo" href="bloomsite.html">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2C9 2 6 5 6 8c0 4 6 12 6 12s6-8 6-12c0-3-3-6-6-6z" fill="#c0392b" opacity="0.85" />
                 <circle cx="12" cy="8" r="2.2" fill="#fff" opacity="0.9" />
@@ -30,8 +253,8 @@
         <div class="nav-spacer"></div>
         <div class="nav-actions">
             <div id="auth-buttons">
-                <a href="login.html"><button class="nav-btn-login">Log in</button></a>
-                <a href="signup.html"><button class="nav-btn-signup">Sign up</button></a>
+                <a href="login.html"><button class="nav-btn-login" data-i18n="nav.login">Log in</button></a>
+                <a href="signup.html"><button class="nav-btn-signup" data-i18n="nav.signup">Sign up</button></a>
             </div>
             <div id="account-menu" style="display:none; position:relative;">
                 <button class="nav-account-btn" onclick="toggleAccount()">
@@ -44,11 +267,13 @@
                 </button>
                 <div class="account-dropdown" id="account-dropdown">
                     <div class="account-dropdown-header"><span id="account-email"></span></div>
-                    <a href="account/my-account.html" class="account-item">My account</a>
-                    <a href="account/orders.html" class="account-item">My orders</a>
-                    <a href="account/wishlist.html" class="account-item">Wishlist</a>
+                    <a href="account/my-account.html" class="account-item" data-i18n="nav.account.account">My
+                        account</a>
+                    <a href="account/orders.html" class="account-item" data-i18n="nav.account.orders">My orders</a>
+                    <a href="account/wishlist.html" class="account-item" data-i18n="nav.account.wishlist">Wishlist</a>
                     <div class="account-divider"></div>
-                    <a href="#" class="account-item account-logout" onclick="logout(); return false;">Log out</a>
+                    <a href="#" class="account-item account-logout" onclick="logout(); return false;"
+                        data-i18n="nav.account.logout">Log out</a>
                 </div>
             </div>
         </div>
@@ -57,67 +282,70 @@
     <div class="checkout-wrap" id="checkout-form-wrap">
         <div>
             <div class="checkout-panel">
-                <h2>Delivery method</h2>
+                <h2 data-i18n="order.delivery.title">Delivery method</h2>
                 <div class="delivery-options">
                     <label class="delivery-opt">
                         <input type="radio" name="delivery" value="delivery" checked>
                         <div class="delivery-opt-label">
-                            <strong>Home delivery</strong>
-                            <span>We deliver to your address within 1–3 business days</span>
+                            <strong data-i18n="order.delivery.home.title">Home delivery</strong>
+                            <span data-i18n="order.delivery.home.desc">We deliver to your address within 1–3 business
+                                days</span>
                         </div>
                     </label>
                     <label class="delivery-opt">
                         <input type="radio" name="delivery" value="pickup">
                         <div class="delivery-opt-label">
-                            <strong>Pick up in store</strong>
-                            <span>123 Flower Street, Yerevan 0001 — ready same day</span>
+                            <strong data-i18n="order.delivery.pickup.title">Pick up in store</strong>
+                            <span data-i18n="order.delivery.pickup.desc">123 Flower Street, Yerevan 0001 — ready same
+                                day</span>
                         </div>
                     </label>
                 </div>
             </div>
 
             <div class="checkout-panel section-gap" id="address-panel">
-                <h2>Delivery address</h2>
+                <h2 data-i18n="order.address.title">Delivery address</h2>
                 <div class="field-row">
                     <div class="checkout-field">
-                        <label>First name</label>
+                        <label data-i18n="order.address.fname">First name</label>
                         <input type="text" id="fname" placeholder="Anna">
                     </div>
                     <div class="checkout-field">
-                        <label>Last name</label>
+                        <label data-i18n="order.address.lname">Last name</label>
                         <input type="text" id="lname" placeholder="Karapetyan">
                     </div>
                 </div>
                 <div class="checkout-field">
-                    <label>Phone number</label>
+                    <label data-i18n="order.address.phone">Phone number</label>
                     <input type="tel" id="phone" placeholder="+374 XX XXX XXX">
                 </div>
                 <div class="checkout-field">
-                    <label>City</label>
+                    <label data-i18n="order.address.city">City</label>
                     <input type="text" id="city" placeholder="Yerevan">
                 </div>
                 <div class="checkout-field">
-                    <label>Street address</label>
+                    <label data-i18n="order.address.street">Street address</label>
                     <input type="text" id="address" placeholder="123 Main Street, Apt 4">
                 </div>
                 <div class="checkout-field">
-                    <label>Delivery note (optional)</label>
-                    <textarea id="note" placeholder="Leave at the door, call when arrived, etc."></textarea>
+                    <label data-i18n="order.address.note">Delivery note (optional)</label>
+                    <textarea id="note" data-i18n-placeholder="order.address.note.placeholder"
+                        placeholder="Leave at the door, call when arrived, etc."></textarea>
                 </div>
                 <div class="checkout-field">
-                    <label>Delivery date</label>
+                    <label data-i18n="order.address.date">Delivery date</label>
                     <input type="date" id="delivery-date">
                 </div>
             </div>
 
             <div class="checkout-panel section-gap">
-                <h2>Payment</h2>
+                <h2 data-i18n="order.payment.title">Payment</h2>
                 <div class="checkout-field">
-                    <label>Cardholder name</label>
+                    <label data-i18n="order.payment.cardholder">Cardholder name</label>
                     <input type="text" id="card-name" placeholder="Anna Karapetyan">
                 </div>
                 <div class="checkout-field">
-                    <label>Card number</label>
+                    <label data-i18n="order.payment.cardnumber">Card number</label>
                     <div class="card-input-wrap">
                         <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19"
                             oninput="formatCard(this)">
@@ -127,18 +355,18 @@
                 </div>
                 <div class="card-row">
                     <div class="checkout-field">
-                        <label>Expiry date</label>
+                        <label data-i18n="order.payment.expiry">Expiry date</label>
                         <input type="text" id="card-expiry" placeholder="MM / YY" maxlength="7"
                             oninput="formatExpiry(this)">
                         <div class="card-valid-msg" id="expiry-msg"></div>
                     </div>
                     <div class="checkout-field">
-                        <label>CVV</label>
+                        <label data-i18n="order.payment.cvv">CVV</label>
                         <input type="text" id="card-cvv" placeholder="123" maxlength="3" oninput="validateCvv(this)">
                         <div class="card-valid-msg" id="cvv-msg"></div>
                     </div>
                     <div class="checkout-field">
-                        <label>Zip / Postal</label>
+                        <label data-i18n="order.payment.zip">Zip / Postal</label>
                         <input type="text" id="card-zip" placeholder="0001" maxlength="6" oninput="validateZip(this)">
                         <div class="card-valid-msg" id="zip-msg"></div>
                     </div>
@@ -148,57 +376,68 @@
 
         <div class="order-summary-panel">
             <div class="checkout-panel">
-                <h2>Order summary</h2>
+                <h2 data-i18n="order.summary.title">Order summary</h2>
                 <div class="order-items" id="order-items">
-                    <p class="order-empty">Your cart is empty.</p>
+                    <p class="order-empty" data-i18n="order.summary.empty">Your cart is empty.</p>
                 </div>
                 <div class="order-divider"></div>
+
                 <div class="order-total-row">
-                    <span>Total</span>
+                    <span data-i18n="order.summary.subtotal">Subtotal</span>
+                    <span id="order-subtotal">$0.00</span>
+                </div>
+                <div class="order-discount-row" id="discount-row" style="display:none;">
+                    <span id="discount-label"></span>
+                    <span id="discount-amount">−$0.00</span>
+                </div>
+                <div class="order-divider" style="margin: 10px 0 8px;"></div>
+                <div class="order-total-row">
+                    <span data-i18n="order.summary.total">Total</span>
                     <span class="total-price" id="order-total">$0.00</span>
                 </div>
-                <button class="place-order-btn" onclick="placeOrder()">Place order</button>
+
+                <div class="promo-block">
+                    <div class="promo-row">
+                        <input class="promo-input" id="promo-input" type="text"
+                            data-i18n-placeholder="order.summary.promo.placeholder" placeholder="Promo code"
+                            maxlength="20" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                        <button class="promo-apply-btn" id="promo-apply-btn" onclick="applyPromo()"
+                            data-i18n="order.summary.promo.apply">Apply</button>
+                    </div>
+                    <div class="promo-msg" id="promo-msg"></div>
+                </div>
+
+                <button class="place-order-btn" onclick="placeOrder()" data-i18n="order.place">Place order</button>
+                <script src="order.js"></script>
                 <div class="secure-note">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="11" width="18" height="11" rx="2" />
                         <path d="M7 11V7a5 5 0 0110 0v4" />
                     </svg>
-                    Secure checkout
+                    <span data-i18n="order.secure">Secure checkout</span>
                 </div>
                 <div class="payment-section">
-                    <div class="payment-label">Accepted payment methods</div>
+                    <div class="payment-label" data-i18n="order.payment.methods">Accepted payment methods</div>
                     <div class="cards">
-                        <div class="chip">
-                            <svg width="28" height="18" viewBox="0 0 48 30" fill="none">
+                        <div class="chip"><svg width="28" height="18" viewBox="0 0 48 30" fill="none">
                                 <rect width="48" height="30" rx="4" fill="#1a1f71" />
                                 <rect y="8" width="48" height="8" fill="#f7b600" /><text x="6" y="22" font-size="9"
                                     fill="#fff" font-family="sans-serif" font-weight="700">VISA</text>
-                            </svg>
-                            Visa
-                        </div>
-                        <div class="chip">
-                            <svg width="28" height="18" viewBox="0 0 48 30" fill="none">
+                            </svg>Visa</div>
+                        <div class="chip"><svg width="28" height="18" viewBox="0 0 48 30" fill="none">
                                 <rect width="48" height="30" rx="4" fill="#252525" />
                                 <circle cx="19" cy="15" r="9" fill="#eb001b" />
                                 <circle cx="29" cy="15" r="9" fill="#f79e1b" />
-                            </svg>
-                            Mastercard
-                        </div>
-                        <div class="chip">
-                            <svg width="28" height="18" viewBox="0 0 48 30" fill="none">
+                            </svg>Mastercard</div>
+                        <div class="chip"><svg width="28" height="18" viewBox="0 0 48 30" fill="none">
                                 <rect width="48" height="30" rx="4" fill="#016fd0" /><text x="4" y="20" font-size="8"
                                     fill="#fff" font-family="sans-serif" font-weight="700">AMEX</text>
-                            </svg>
-                            Amex
-                        </div>
-                        <div class="chip">
-                            <svg width="28" height="18" viewBox="0 0 48 30" fill="none">
+                            </svg>Amex</div>
+                        <div class="chip"><svg width="28" height="18" viewBox="0 0 48 30" fill="none">
                                 <rect width="48" height="30" rx="4" fill="#fff" stroke="#ddd" stroke-width="1" /><text
                                     x="4" y="20" font-size="7.5" fill="#231f20" font-family="sans-serif"
                                     font-weight="700">PayPal</text>
-                            </svg>
-                            PayPal
-                        </div>
+                            </svg>PayPal</div>
                     </div>
                 </div>
             </div>
@@ -207,151 +446,142 @@
 
     <script src="cart.js"></script>
     <script>
+        var PROMO_CODES = {
+            'BLOOM15': { discount: 0.15, label: '15% off — Welcome discount' },
+            'SPRING10': { discount: 0.10, label: '10% off — Spring sale' },
+            'FRESH20': { discount: 0.20, label: '20% off — Fresh flowers special' },
+        };
+
+        var appliedPromo = null;
+        var baseTotal = 0;
+
+        function applyPromo() {
+            var code = document.getElementById('promo-input').value.trim().toUpperCase();
+            var msg = document.getElementById('promo-msg');
+            var discountRow = document.getElementById('discount-row');
+            var discountLabel = document.getElementById('discount-label');
+            var discountAmount = document.getElementById('discount-amount');
+            var totalEl = document.getElementById('order-total');
+            var btn = document.getElementById('promo-apply-btn');
+
+            if (!code) { msg.textContent = t('order.summary.promo.placeholder') + '?'; msg.className = 'promo-msg invalid'; return; }
+
+            if (!(code in PROMO_CODES)) {
+                msg.textContent = '✗ "' + code + '" — ' + (localStorage.getItem('bloom_lang') === 'ru' ? 'промокод не найден.' : localStorage.getItem('bloom_lang') === 'hy' ? 'կոդը չի գտնվել։' : 'promo code not found.');
+                msg.className = 'promo-msg invalid';
+                appliedPromo = null;
+                discountRow.style.display = 'none';
+                totalEl.textContent = '$' + baseTotal.toFixed(2);
+                return;
+            }
+
+            var promo = PROMO_CODES[code];
+            appliedPromo = promo;
+            var discountValue = baseTotal * promo.discount;
+            var finalTotal = baseTotal - discountValue;
+
+            discountLabel.textContent = promo.label;
+            discountAmount.textContent = '−$' + discountValue.toFixed(2);
+            discountRow.style.display = 'flex';
+            totalEl.textContent = '$' + finalTotal.toFixed(2);
+
+            var lang = localStorage.getItem('bloom_lang') || 'en';
+            var saveMsg = lang === 'ru' ? '✓ Код применён! Вы экономите $' + discountValue.toFixed(2) + '.' : lang === 'hy' ? '✓ Կոդը կիրառված է! Դուք խնայում եք $' + discountValue.toFixed(2) + '։' : '✓ Code applied! You save $' + discountValue.toFixed(2) + '.';
+            msg.textContent = saveMsg;
+            msg.className = 'promo-msg valid';
+
+            document.getElementById('promo-input').disabled = true;
+            btn.textContent = t('order.summary.promo.remove');
+            btn.onclick = removePromo;
+        }
+
+        function removePromo() {
+            appliedPromo = null;
+            document.getElementById('promo-input').value = '';
+            document.getElementById('promo-input').disabled = false;
+            document.getElementById('promo-msg').textContent = '';
+            document.getElementById('promo-msg').className = 'promo-msg';
+            document.getElementById('discount-row').style.display = 'none';
+            document.getElementById('order-total').textContent = '$' + baseTotal.toFixed(2);
+            var btn = document.getElementById('promo-apply-btn');
+            btn.textContent = t('order.summary.promo.apply');
+            btn.onclick = applyPromo;
+        }
+
         function showAlert(message, onClose) {
-            const isDark = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
+            var isDark = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
             document.body.classList.add('alert-open');
-            const overlay = document.createElement('div');
-            overlay.id = 'bloom-alert-overlay';
-            overlay.style.cssText = `
-                position: fixed; inset: 0; background: rgba(0,0,0,0.45);
-                display: flex; align-items: center; justify-content: center;
-                z-index: 99999; backdrop-filter: blur(4px);
-                animation: fadeIn 0.2s ease; cursor: default;
-            `;
-            overlay.innerHTML = `
-                <div style="
-                    background: ${isDark ? '#1c1f22' : '#fff'};
-                    color: ${isDark ? '#e6e6e6' : '#2a2a2a'};
-                    border-radius: 16px; padding: 28px 32px;
-                    max-width: 340px; width: 90%; text-align: center;
-                    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-                    animation: slideUp 0.25s ease;
-                    border: 1px solid ${isDark ? '#2b2f33' : '#ece8e0'}; cursor: default;
-                ">
-                    <div style="font-size: 32px; margin-bottom: 12px;">⚠️</div>
-                    <p style="font-size: 15px; line-height: 1.6; margin-bottom: 20px;">${message}</p>
-                    <button id="bloom-alert-ok" style="
-                        background: #1c3d2a; color: #fff; border: none;
-                        border-radius: 8px; padding: 10px 28px;
-                        font-size: 14px; font-weight: 600;
-                        font-family: inherit; cursor: pointer;
-                    ">OK</button>
-                </div>
-            `;
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:99999;backdrop-filter:blur(4px);animation:fadeIn 0.2s ease;cursor:default;';
+            overlay.innerHTML = '<div style="background:' + (isDark ? '#1c1f22' : '#fff') + ';color:' + (isDark ? '#e6e6e6' : '#2a2a2a') + ';border-radius:16px;padding:28px 32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:slideUp 0.25s ease;border:1px solid ' + (isDark ? '#2b2f33' : '#ece8e0') + ';"><div style="font-size:32px;margin-bottom:12px;">⚠️</div><p style="font-size:15px;line-height:1.6;margin-bottom:20px;">' + message + '</p><button id="bloom-alert-ok" style="background:#1c3d2a;color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;">OK</button></div>';
             document.body.appendChild(overlay);
             document.getElementById('bloom-alert-ok').addEventListener('click', function () {
-                overlay.remove();
-                document.body.classList.remove('alert-open');
+                overlay.remove(); document.body.classList.remove('alert-open');
                 if (typeof onClose === 'function') onClose();
             });
         }
 
         function showSuccess(dateText, isPickup) {
-            const isDark = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
-            const color = isDark ? '#7fbf9a' : '#1c3d2a';
-
-            const overlay = document.createElement('div');
+            var isDark = document.documentElement.getAttribute('data-bloom-theme') === 'dark';
+            var color = isDark ? '#7fbf9a' : '#1c3d2a';
+            var overlay = document.createElement('div');
             overlay.id = 'bloom-success-overlay';
             overlay.style.background = isDark ? '#141618' : '#f8f6f2';
-
-            const dateLine = isPickup
-                ? `<div class="success-date" style="color:${color};">🏪 Ready for pickup today at our store</div>`
+            var dateLine = isPickup
+                ? '<div class="success-date" style="color:' + color + ';">' + t('order.success.pickup') + '</div>'
                 : dateText
-                    ? `<div class="success-date" style="color:${color};">🚚 Your order will arrive on ${dateText}</div>`
+                    ? '<div class="success-date" style="color:' + color + ';">' + t('order.success.delivery') + dateText + '</div>'
                     : '';
-
-            overlay.innerHTML = `
-                <div style="text-align: center;">
-                    <div class="success-emoji" style="color:${color};">BLOOM</div>
-                    <div class="success-title" style="color:${color};">Order placed!</div>
-                    ${dateLine}
-                    <div class="success-subtitle">Redirecting to main page…</div>
-                    <div id="bloom-success-bar" style="background:${color};"></div>
-                </div>
-            `;
+            overlay.innerHTML = '<div style="text-align:center;"><div class="success-emoji" style="color:' + color + ';">BLOOM</div><div class="success-title" style="color:' + color + ';">' + t('order.success.title') + '</div>' + dateLine + '<div class="success-subtitle">' + t('order.success.redirect') + '</div><div id="bloom-success-bar" style="background:' + color + ';"></div></div>';
             document.body.appendChild(overlay);
-            setTimeout(function () {
-                const bar = document.getElementById('bloom-success-bar');
-                if (bar) bar.classList.add('animate');
-            }, 50);
-            setTimeout(function () {
-                window.location.href = 'index.html';
-            }, 2500);
+            setTimeout(function () { var b = document.getElementById('bloom-success-bar'); if (b) b.classList.add('animate'); }, 50);
+            setTimeout(function () { window.location.href = 'bloomsite.html'; }, 2500);
         }
 
         document.querySelectorAll('input[name="delivery"]').forEach(function (r) {
             r.addEventListener('change', function () {
-                document.getElementById('address-panel').style.display =
-                    this.value === 'delivery' ? 'block' : 'none';
+                document.getElementById('address-panel').style.display = this.value === 'delivery' ? 'block' : 'none';
             });
         });
 
         function formatCard(el) {
-            let raw = el.value.replace(/\D/g, '').substring(0, 16);
+            var raw = el.value.replace(/\D/g, '').substring(0, 16);
             el.value = raw.replace(/(.{4})/g, '$1 ').trim();
-            const icon = document.getElementById('card-brand-icon');
-            const msg = document.getElementById('card-valid-msg');
-            const btn = document.querySelector('.place-order-btn');
-            let brand = null;
+            var icon = document.getElementById('card-brand-icon');
+            var msg = document.getElementById('card-valid-msg');
+            var btn = document.querySelector('.place-order-btn');
+            var brand = null;
             if (/^4/.test(raw)) brand = 'visa';
             else if (/^5[1-5]|^2[2-7]/.test(raw)) brand = 'mastercard';
             else if (/^3[47]/.test(raw)) brand = 'amex';
             else if (/^6(?:011|5)/.test(raw)) brand = 'discover';
-            const icons = {
-                visa: `<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#1a1f71"/><rect y="8" width="48" height="8" fill="#f7b600"/><text x="6" y="22" font-size="9" fill="#fff" font-family="sans-serif" font-weight="700">VISA</text></svg>`,
-                mastercard: `<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#252525"/><circle cx="19" cy="15" r="9" fill="#eb001b"/><circle cx="29" cy="15" r="9" fill="#f79e1b"/></svg>`,
-                amex: `<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#016fd0"/><text x="4" y="20" font-size="8" fill="#fff" font-family="sans-serif" font-weight="700">AMEX</text></svg>`,
-                discover: `<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#f26122"/><text x="4" y="20" font-size="7" fill="#fff" font-family="sans-serif" font-weight="700">Discover</text></svg>`
-            };
+            var icons = { visa: '<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#1a1f71"/><rect y="8" width="48" height="8" fill="#f7b600"/><text x="6" y="22" font-size="9" fill="#fff" font-family="sans-serif" font-weight="700">VISA</text></svg>', mastercard: '<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#252525"/><circle cx="19" cy="15" r="9" fill="#eb001b"/><circle cx="29" cy="15" r="9" fill="#f79e1b"/></svg>', amex: '<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#016fd0"/><text x="4" y="20" font-size="8" fill="#fff" font-family="sans-serif" font-weight="700">AMEX</text></svg>', discover: '<svg width="36" height="24" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#f26122"/><text x="4" y="20" font-size="7" fill="#fff" font-family="sans-serif" font-weight="700">Discover</text></svg>' };
             icon.innerHTML = brand ? icons[brand] : '';
             if (raw.length === 16) {
-                let sum = 0;
-                for (let i = 0; i < 16; i++) {
-                    let d = parseInt(raw[i]);
-                    if ((16 - i) % 2 === 0) { d *= 2; if (d > 9) d -= 9; }
-                    sum += d;
-                }
-                if (sum % 10 === 0) {
-                    msg.textContent = '✓ Valid card number';
-                    msg.className = 'card-valid-msg valid';
-                    btn.disabled = false; btn.style.background = ''; btn.style.opacity = ''; btn.style.cursor = '';
-                } else {
-                    msg.textContent = '✗ Invalid card number';
-                    msg.className = 'card-valid-msg invalid';
-                    btn.disabled = true; btn.style.background = '#6b2020'; btn.style.opacity = '0.6'; btn.style.cursor = 'not-allowed';
-                }
-            } else {
-                msg.textContent = ''; msg.className = 'card-valid-msg';
-                btn.disabled = false; btn.style.background = ''; btn.style.opacity = ''; btn.style.cursor = '';
-            }
+                var sum = 0;
+                for (var i = 0; i < 16; i++) { var d = parseInt(raw[i]); if ((16 - i) % 2 === 0) { d *= 2; if (d > 9) d -= 9; } sum += d; }
+                if (sum % 10 === 0) { msg.textContent = '✓ Valid card number'; msg.className = 'card-valid-msg valid'; btn.disabled = false; btn.style.background = ''; btn.style.opacity = ''; btn.style.cursor = ''; }
+                else { msg.textContent = '✗ Invalid card number'; msg.className = 'card-valid-msg invalid'; btn.disabled = true; btn.style.background = '#6b2020'; btn.style.opacity = '0.6'; btn.style.cursor = 'not-allowed'; }
+            } else { msg.textContent = ''; msg.className = 'card-valid-msg'; btn.disabled = false; btn.style.background = ''; btn.style.opacity = ''; btn.style.cursor = ''; }
         }
 
         function formatExpiry(el) {
-            let v = el.value.replace(/\D/g, '').substring(0, 4);
+            var v = el.value.replace(/\D/g, '').substring(0, 4);
             if (v.length >= 3) v = v.substring(0, 2) + ' / ' + v.substring(2);
             el.value = v;
-            const msg = document.getElementById('expiry-msg');
-            const raw = el.value.replace(/\D/g, '');
+            var msg = document.getElementById('expiry-msg');
+            var raw = el.value.replace(/\D/g, '');
             if (raw.length === 4) {
-                const month = parseInt(raw.substring(0, 2));
-                const year = parseInt('20' + raw.substring(2));
-                const now = new Date();
-                const expDate = new Date(year, month - 1);
-                if (month < 1 || month > 12) {
-                    msg.textContent = '✗ Invalid month'; msg.className = 'card-valid-msg invalid';
-                } else if (expDate < new Date(now.getFullYear(), now.getMonth())) {
-                    msg.textContent = '✗ Card expired'; msg.className = 'card-valid-msg invalid';
-                } else {
-                    msg.textContent = '✓ Valid'; msg.className = 'card-valid-msg valid';
-                }
-            } else {
-                msg.textContent = ''; msg.className = 'card-valid-msg';
-            }
+                var month = parseInt(raw.substring(0, 2)), year = parseInt('20' + raw.substring(2)), now = new Date(), expDate = new Date(year, month - 1);
+                if (month < 1 || month > 12) { msg.textContent = '✗ Invalid month'; msg.className = 'card-valid-msg invalid'; }
+                else if (expDate < new Date(now.getFullYear(), now.getMonth())) { msg.textContent = '✗ Card expired'; msg.className = 'card-valid-msg invalid'; }
+                else { msg.textContent = '✓ Valid'; msg.className = 'card-valid-msg valid'; }
+            } else { msg.textContent = ''; msg.className = 'card-valid-msg'; }
         }
 
         function validateCvv(el) {
             el.value = el.value.replace(/\D/g, '').substring(0, 3);
-            const msg = document.getElementById('cvv-msg');
+            var msg = document.getElementById('cvv-msg');
             if (el.value.length === 3) { msg.textContent = '✓ Valid'; msg.className = 'card-valid-msg valid'; }
             else if (el.value.length > 0) { msg.textContent = '✗ 3 digits required'; msg.className = 'card-valid-msg invalid'; }
             else { msg.textContent = ''; msg.className = 'card-valid-msg'; }
@@ -359,125 +589,70 @@
 
         function validateZip(el) {
             el.value = el.value.replace(/[^a-zA-Z0-9]/g, '').substring(0, 6);
-            const msg = document.getElementById('zip-msg');
+            var msg = document.getElementById('zip-msg');
             if (el.value.length >= 4) { msg.textContent = '✓ Valid'; msg.className = 'card-valid-msg valid'; }
             else if (el.value.length > 0) { msg.textContent = '✗ Too short'; msg.className = 'card-valid-msg invalid'; }
             else { msg.textContent = ''; msg.className = 'card-valid-msg'; }
         }
 
         function loadOrderSummary() {
-    const items = JSON.parse(localStorage.getItem('bloom_cart') || '[]');
-    const meta = JSON.parse(localStorage.getItem('bloom_cart_meta') || '[]');
-    const container = document.getElementById('order-items');
-    const totalEl = document.getElementById('order-total');
-
-    if (items.length === 0) {
-        container.innerHTML = '<p class="order-empty">Your cart is empty.</p>';
-        totalEl.textContent = '$0.00';
-        return;
-    }
-
-    container.innerHTML = items.map(function (item, i) {
-        const m = meta[i];
-        const details = m
-            ? `<div style="font-size:12px; color:#888; margin-top:2px;">${m.bouquets} bouquet${m.bouquets>1?'s':''} × ${m.stems} flower${m.stems>1?'s':''}, ${m.size}cm — $${m.pricePerBouquet} each${m.discount > 0 ? ` (${m.discount*100}% off)` : ''}</div>`
-            : '';
-        return `<div class="order-item-row">
-            <div>
-                <span class="item-name">${item.name.split(' — ')[0]}</span>
-                ${details}
-            </div>
-            <span class="item-price">${item.price}</span>
-        </div>`;
-    }).join('');
-
-    const total = items.reduce(function (s, i) {
-        return s + parseFloat(i.price.replace('$', ''));
-    }, 0);
-    totalEl.textContent = '$' + total.toFixed(2);
-
-    // Показываем время готовности для pickup
-    const now = new Date();
-    const readyHour = now.getHours() + 2;
-    const readyTime = readyHour < 24
-        ? `${readyHour}:${String(now.getMinutes()).padStart(2,'0')} today`
-        : 'tomorrow morning';
-
-    let pickupEl = document.getElementById('pickup-ready-info');
-    if (!pickupEl) {
-        pickupEl = document.createElement('div');
-        pickupEl.id = 'pickup-ready-info';
-        pickupEl.style.cssText = 'font-size:13px; color:#2d6a2d; margin-top:8px; display:none;';
-        totalEl.closest('.order-total-row').after(pickupEl);
-    }
-    pickupEl.textContent = `🏪 Ready for pickup at ${readyTime}`;
-
-    // Показываем/прячем в зависимости от метода доставки
-    document.querySelectorAll('input[name="delivery"]').forEach(r => {
-        r.addEventListener('change', function () {
-            pickupEl.style.display = this.value === 'pickup' ? 'block' : 'none';
-        });
-    });
-    const checked = document.querySelector('input[name="delivery"]:checked');
-    if (checked) pickupEl.style.display = checked.value === 'pickup' ? 'block' : 'none';
-}
+            var items = JSON.parse(localStorage.getItem('bloom_cart') || '[]');
+            var meta = JSON.parse(localStorage.getItem('bloom_cart_meta') || '[]');
+            var container = document.getElementById('order-items');
+            var subtotalEl = document.getElementById('order-subtotal');
+            var totalEl = document.getElementById('order-total');
+            if (items.length === 0) { container.innerHTML = '<p class="order-empty">' + t('order.summary.empty') + '</p>'; subtotalEl.textContent = '$0.00'; totalEl.textContent = '$0.00'; baseTotal = 0; return; }
+            container.innerHTML = items.map(function (item, i) {
+                var m = meta[i];
+                var details = m ? '<div style="font-size:12px;color:#888;margin-top:2px;">' + m.bouquets + ' bouquet' + (m.bouquets > 1 ? 's' : '') + ' × ' + m.stems + ' flower' + (m.stems > 1 ? 's' : '') + ', ' + m.size + 'cm — $' + m.pricePerBouquet + ' each' + (m.discount > 0 ? ' (' + (m.discount * 100) + '% off)' : '') + '</div>' : '';
+                return '<div class="order-item-row"><div><span class="item-name">' + item.name.split(' — ')[0] + '</span>' + details + '</div><span class="item-price">' + item.price + '</span></div>';
+            }).join('');
+            baseTotal = items.reduce(function (s, i) { return s + parseFloat(i.price.replace('$', '')); }, 0);
+            subtotalEl.textContent = '$' + baseTotal.toFixed(2);
+            totalEl.textContent = '$' + baseTotal.toFixed(2);
+            var now = new Date(), readyHour = now.getHours() + 2;
+            var readyTime = readyHour < 24 ? readyHour + ':' + String(now.getMinutes()).padStart(2, '0') + ' today' : 'tomorrow morning';
+            var pickupEl = document.getElementById('pickup-ready-info');
+            if (!pickupEl) { pickupEl = document.createElement('div'); pickupEl.id = 'pickup-ready-info'; pickupEl.style.cssText = 'font-size:13px;color:#2d6a2d;margin-top:8px;display:none;'; totalEl.closest('.order-total-row').after(pickupEl); }
+            pickupEl.textContent = '🏪 Ready for pickup at ' + readyTime;
+            document.querySelectorAll('input[name="delivery"]').forEach(function (r) { r.addEventListener('change', function () { pickupEl.style.display = this.value === 'pickup' ? 'block' : 'none'; }); });
+            var checked = document.querySelector('input[name="delivery"]:checked');
+            if (checked) pickupEl.style.display = checked.value === 'pickup' ? 'block' : 'none';
+        }
 
         function placeOrder() {
-            const delivery = document.querySelector('input[name="delivery"]:checked').value;
-            const isPickup = delivery === 'pickup';
-            const cardNum = document.getElementById('card-number').value.replace(/\s/g, '');
-            const cardName = document.getElementById('card-name').value.trim();
-
+            var delivery = document.querySelector('input[name="delivery"]:checked').value;
+            var isPickup = delivery === 'pickup';
+            var cardNum = document.getElementById('card-number').value.replace(/\s/g, '');
+            var cardName = document.getElementById('card-name').value.trim();
             if (!cardName) { showAlert('Please enter cardholder name.'); return; }
             if (cardNum.length < 16) { showAlert('Please enter a valid 16-digit card number.'); return; }
-
-            const expiryMsg = document.getElementById('expiry-msg');
-            const cvvMsg = document.getElementById('cvv-msg');
+            var expiryMsg = document.getElementById('expiry-msg'), cvvMsg = document.getElementById('cvv-msg');
             if (!expiryMsg.classList.contains('valid')) { showAlert('Please enter a valid expiry date.'); return; }
             if (!cvvMsg.classList.contains('valid')) { showAlert('Please enter a valid CVV.'); return; }
-
-            let dateText = null;
-
+            var dateText = null;
             if (!isPickup) {
-                const fname = document.getElementById('fname').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const address = document.getElementById('address').value.trim();
-                if (!fname || !phone || !address) {
-                    showAlert('Please fill in your name, phone, and address.');
-                    return;
-                }
-
-                const deliveryDate = document.getElementById('delivery-date').value;
+                var fname = document.getElementById('fname').value.trim(), phone = document.getElementById('phone').value.trim(), address = document.getElementById('address').value.trim();
+                if (!fname || !phone || !address) { showAlert('Please fill in your name, phone, and address.'); return; }
+                var deliveryDate = document.getElementById('delivery-date').value;
                 if (!deliveryDate) { showAlert('Please select a delivery date.'); return; }
-                const selected = new Date(deliveryDate + 'T12:00:00');
-                const today = new Date();
+                var selected = new Date(deliveryDate + 'T12:00:00'), today = new Date();
                 today.setHours(0, 0, 0, 0);
                 if (selected < today) { showAlert('Please select a future delivery date.'); return; }
-
                 dateText = selected.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
             }
-
             localStorage.removeItem('bloom_cart');
             localStorage.removeItem('bloom_cart_meta');
-            const btn = document.querySelector('.place-order-btn');
-            if (btn) {
-                btn.textContent = '✓ Successfully ordered!';
-                btn.style.background = '#2d6a2d';
-                btn.style.pointerEvents = 'none';
-            }
+            var btn = document.querySelector('.place-order-btn');
+            if (btn) { btn.textContent = '✓ ' + t('order.success.title'); btn.style.background = '#2d6a2d'; btn.style.pointerEvents = 'none'; }
             showSuccess(dateText, isPickup);
         }
 
         window.addEventListener('DOMContentLoaded', function () {
             loadOrderSummary();
-            const dateInput = document.getElementById('delivery-date');
-            if (dateInput) {
-                const today = new Date();
-                const max = new Date();
-                max.setDate(today.getDate() + 30);
-                dateInput.min = today.toISOString().split('T')[0];
-                dateInput.max = max.toISOString().split('T')[0];
-            }
+            applyTranslations();
+            var dateInput = document.getElementById('delivery-date');
+            if (dateInput) { var today = new Date(), max = new Date(); max.setDate(today.getDate() + 30); dateInput.min = today.toISOString().split('T')[0]; dateInput.max = max.toISOString().split('T')[0]; }
         });
     </script>
 </body>
