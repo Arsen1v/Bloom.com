@@ -477,3 +477,224 @@ body.alert-open * {
 .card-valid-msg.invalid {
     color: #e53935;
 }
+
+   @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shrinkBar {
+            from {
+                width: 160px;
+            }
+
+            to {
+                width: 0px;
+            }
+        }
+
+        body.alert-open #cursor,
+        body.alert-open #cursor-dot {
+            display: none !important;
+        }
+
+        body.alert-open,
+        body.alert-open * {
+            cursor: default !important;
+        }
+
+        #bloom-success-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            animation: fadeIn 0.35s ease forwards;
+            cursor: default;
+        }
+
+        #bloom-success-overlay .success-emoji {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+            animation: popIn 0.5s ease forwards;
+        }
+
+        #bloom-success-overlay .success-title {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #bloom-success-overlay .success-subtitle {
+            font-size: 15px;
+            color: #888;
+            margin-bottom: 24px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #bloom-success-overlay .success-date {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #bloom-success-bar {
+            width: 160px;
+            height: 3px;
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        #bloom-success-bar.animate {
+            animation: shrinkBar 2.5s linear forwards;
+        }
+
+        .promo-block {
+            margin: 14px 0 0;
+        }
+
+        .promo-block+.place-order-btn {
+            margin-top: 4px;
+        }
+
+        .promo-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 9px 13px;
+            font-size: 13px;
+            font-family: inherit;
+            border: 1px solid #e5e0d8;
+            border-radius: 8px;
+            background: #f5f2ec;
+            color: #2a2a2a;
+            outline: none;
+            letter-spacing: 0.05em;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .promo-input:focus {
+            border-color: #8aab8a;
+            background: #fff;
+        }
+
+        .promo-input::placeholder {
+            color: #b5b0a8;
+            letter-spacing: 0;
+        }
+
+        .promo-apply-btn {
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            background: #1c3d2a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        .promo-apply-btn:hover {
+            background: #142d1f;
+        }
+
+        .promo-apply-btn:disabled {
+            background: #8aab8a;
+            cursor: default;
+        }
+
+        .promo-msg {
+            margin-top: 7px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            min-height: 18px;
+        }
+
+        .promo-msg.valid {
+            color: #2d6a2d;
+        }
+
+        .promo-msg.invalid {
+            color: #b5363a;
+        }
+
+        .order-discount-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #2d6a2d;
+            margin: 4px 0 0;
+            font-weight: 500;
+        }
+
+        html[data-bloom-theme="dark"] .promo-input {
+            background: #242a26;
+            border-color: #3a3f3a;
+            color: #e6e6e6;
+        }
+
+        html[data-bloom-theme="dark"] .promo-input:focus {
+            border-color: #7fbf9a;
+            background: #1c1f22;
+        }
+
+        html[data-bloom-theme="dark"] .promo-apply-btn {
+            background: #2d5a3d;
+        }
+
+        html[data-bloom-theme="dark"] .promo-apply-btn:hover {
+            background: #356a48;
+        }
+
+        html[data-bloom-theme="dark"] .promo-msg.valid {
+            color: #7fbf9a;
+        }
+
+        html[data-bloom-theme="dark"] .order-discount-row {
+            color: #7fbf9a;
+        }
